@@ -10,8 +10,6 @@ output "private_ip" {
   value = google_sql_database_instance.postgres.private_ip_address
 }
 
-output "connection_string" {
-  sensitive = true
-  value     = "postgresql://fidelity_app:${var.db_password}@${google_sql_database_instance.postgres.private_ip_address}/fidelity?sslmode=require"
-}
+
+# The connection string must be constructed at runtime using the password from Secret Manager.
 

@@ -48,6 +48,7 @@ module "networking" {
   depends_on = [google_project_service.apis]
 }
 
+
 # ── Cloud SQL ──────────────────────────────────────────────────
 module "cloudsql" {
   source      = "./modules/cloudsql"
@@ -55,7 +56,7 @@ module "cloudsql" {
   region      = var.region
   prefix      = local.prefix
   labels      = local.common_labels
-  db_password = var.db_password
+  # DB password must be set manually to match the secret in Secret Manager
   network_id  = module.networking.vpc_id
   depends_on  = [module.networking]
 }
@@ -70,20 +71,9 @@ module "storage" {
   depends_on = [google_project_service.apis]
 }
 
+
 # ── Secret Manager ─────────────────────────────────────────────
-module "secrets" {
-  source                            = "./modules/secrets"
-  project_id                        = var.project_id
-  prefix                            = local.prefix
-  labels                            = local.common_labels
-  db_password                       = var.db_password
-  db_connection_string              = module.cloudsql.connection_string
-  apple_cert_base64                 = var.apple_cert_base64
-  apple_cert_password               = var.apple_cert_password
-  google_wallet_service_account_key = var.google_wallet_service_account_key
-  whatsapp_api_token                = var.whatsapp_api_token
-  depends_on                        = [google_project_service.apis]
-}
+# All secrets must be created manually in Secret Manager. Pass their resource IDs below.
 
 # ── CI/CD ──────────────────────────────────────────────────────
 module "cicd" {
@@ -110,9 +100,13 @@ module "cloudrun" {
   vpc_connector_id   = module.networking.vpc_connector_id
   cloudsql_instance  = module.cloudsql.connection_name
   bucket_name        = module.storage.cards_bucket_name
-  secret_ids         = module.secrets.secret_ids
+  db_password_secret_id = var.db_password_secret_id
+  apple_cert_base64_secret_id = var.apple_cert_base64_secret_id
+  apple_cert_password_secret_id = var.apple_cert_password_secret_id
+  google_wallet_service_account_key_secret_id = var.google_wallet_service_account_key_secret_id
+  whatsapp_api_token_secret_id = var.whatsapp_api_token_secret_id
   sa_email           = module.cicd.cloudrun_sa_email
-  depends_on         = [module.cloudsql, module.secrets, module.networking, module.cicd]
+  depends_on         = [module.cloudsql, module.networking, module.cicd]
 }
 
 # ── Firebase ───────────────────────────────────────────────────

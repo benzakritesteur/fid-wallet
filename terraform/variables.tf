@@ -10,13 +10,13 @@ variable "region" {
 }
 
 variable "env" {
-  description = "Environment: dev | staging | prod"
+  description = "Environment: dev | stage | prod"
   type        = string
   default     = "dev"
 
   validation {
-    condition     = contains(["dev", "staging", "prod"], var.env)
-    error_message = "env must be dev, staging, or prod."
+    condition     = contains(["dev", "stage", "prod"], var.env)
+    error_message = "env must be dev, stage, or prod."
   }
 }
 
@@ -26,38 +26,31 @@ variable "app_name" {
   default     = "fidelity"
 }
 
-variable "db_password" {
-  description = "PostgreSQL admin password — set via TF_VAR_db_password env var"
+
+# Secret Manager secret resource IDs (must be created manually)
+variable "db_password_secret_id" {
+  description = "Resource ID of the Secret Manager secret for the DB password (e.g. projects/xxx/secrets/xxx)"
   type        = string
-  sensitive   = true
 }
 
-variable "apple_cert_base64" {
-  description = "Apple Pass Type ID certificate (.p12) encoded in base64"
+variable "apple_cert_base64_secret_id" {
+  description = "Resource ID of the Secret Manager secret for the Apple Pass Type ID certificate (.p12, base64)"
   type        = string
-  sensitive   = true
-  default     = ""
 }
 
-variable "apple_cert_password" {
-  description = "Password for the Apple .p12 certificate"
+variable "apple_cert_password_secret_id" {
+  description = "Resource ID of the Secret Manager secret for the Apple .p12 password"
   type        = string
-  sensitive   = true
-  default     = ""
 }
 
-variable "google_wallet_service_account_key" {
-  description = "Google Wallet service account JSON key (base64)"
+variable "google_wallet_service_account_key_secret_id" {
+  description = "Resource ID of the Secret Manager secret for the Google Wallet service account JSON key (base64)"
   type        = string
-  sensitive   = true
-  default     = ""
 }
 
-variable "whatsapp_api_token" {
-  description = "WhatsApp Business API token"
+variable "whatsapp_api_token_secret_id" {
+  description = "Resource ID of the Secret Manager secret for the WhatsApp Business API token"
   type        = string
-  sensitive   = true
-  default     = ""
 }
 
 variable "github_owner" {

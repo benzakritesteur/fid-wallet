@@ -1,9 +1,4 @@
-variable "project_id" {}
-variable "region" {}
-variable "prefix" {}
-variable "labels" {}
-variable "db_password" { sensitive = true }
-variable "network_id" {}
+
 
 resource "random_id" "db_suffix" {
   byte_length = 4
@@ -18,7 +13,7 @@ resource "google_sql_database_instance" "postgres" {
   deletion_protection = false # set true in prod
 
   settings {
-    tier              = "db-f1-micro" # upgrade to db-g1-small for staging/prod
+    tier              = "db-f1-micro" # upgrade to db-g1-small for stage/prod
     availability_type = "ZONAL"       # use REGIONAL for prod HA
     disk_autoresize   = true
     disk_size         = 10
@@ -62,10 +57,7 @@ resource "google_sql_database" "fidelity_db" {
   project  = var.project_id
 }
 
-resource "google_sql_user" "app_user" {
-  name     = "fidelity_app"
-  instance = google_sql_database_instance.postgres.name
-  password = var.db_password
-  project  = var.project_id
-}
+
+# NOTE: The DB user must be created manually with the password stored in Secret Manager.
+
 

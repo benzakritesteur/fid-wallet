@@ -8,7 +8,11 @@ variable "max_instances" {}
 variable "vpc_connector_id" {}
 variable "cloudsql_instance" {}
 variable "bucket_name" {}
-variable "secret_ids" {}
+variable "db_password_secret_id" {}
+variable "apple_cert_base64_secret_id" {}
+variable "apple_cert_password_secret_id" {}
+variable "google_wallet_service_account_key_secret_id" {}
+variable "whatsapp_api_token_secret_id" {}
 variable "sa_email" {}
 
 resource "google_cloud_run_v2_service" "api" {
@@ -70,7 +74,7 @@ resource "google_cloud_run_v2_service" "api" {
         name = "DATABASE_URL"
         value_source {
           secret_key_ref {
-            secret  = var.secret_ids["db_connection_string"]
+            secret  = var.db_password_secret_id
             version = "latest"
           }
         }
@@ -79,7 +83,7 @@ resource "google_cloud_run_v2_service" "api" {
         name = "APPLE_CERT_BASE64"
         value_source {
           secret_key_ref {
-            secret  = var.secret_ids["apple_cert_base64"]
+            secret  = var.apple_cert_base64_secret_id
             version = "latest"
           }
         }
@@ -88,7 +92,7 @@ resource "google_cloud_run_v2_service" "api" {
         name = "APPLE_CERT_PASSWORD"
         value_source {
           secret_key_ref {
-            secret  = var.secret_ids["apple_cert_password"]
+            secret  = var.apple_cert_password_secret_id
             version = "latest"
           }
         }
@@ -97,7 +101,7 @@ resource "google_cloud_run_v2_service" "api" {
         name = "GOOGLE_WALLET_SA_KEY"
         value_source {
           secret_key_ref {
-            secret  = var.secret_ids["google_wallet_service_account_key"]
+            secret  = var.google_wallet_service_account_key_secret_id
             version = "latest"
           }
         }
@@ -106,7 +110,7 @@ resource "google_cloud_run_v2_service" "api" {
         name = "WHATSAPP_TOKEN"
         value_source {
           secret_key_ref {
-            secret  = var.secret_ids["whatsapp_api_token"]
+            secret  = var.whatsapp_api_token_secret_id
             version = "latest"
           }
         }
