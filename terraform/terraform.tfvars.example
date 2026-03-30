@@ -1,0 +1,17 @@
+# Copy to terraform.tfvars and fill in values.
+# NEVER commit terraform.tfvars to git.
+#
+# project_id  = "my-fidelity-project"
+# env         = "dev"
+# app_name    = "fidelity"
+# region      = "europe-west1"
+# github_owner = "my-github-org"
+# github_repo  = "fidelity-backend"
+#
+# Secrets — prefer environment variables:
+# export TF_VAR_db_password="..."
+# export TF_VAR_apple_cert_base64="$(base64 -i cert.p12)"
+# export TF_VAR_apple_cert_password="..."
+# export TF_VAR_google_wallet_service_account_key="$(base64 -i wallet-sa.json)"
+# export TF_VAR_whatsapp_api_token="..."
+
