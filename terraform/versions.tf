@@ -16,10 +16,9 @@ terraform {
     }
   }
 
-  # Uncomment and configure after first apply to use remote state
-  # backend "gcs" {
-  #   bucket = "YOUR_PROJECT_ID-tfstate"
-  #   prefix = "terraform/state"
-  # }
+  backend "gcs" {
+    bucket = "tfstate-fid-wallet-dev"
+    prefix = "terraform/state"
+  }
 }
 

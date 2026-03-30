@@ -1,8 +1,3 @@
-variable "project_id" {}
-variable "region" {}
-variable "prefix" {}
-variable "labels" {}
-
 resource "google_compute_network" "vpc" {
   name                    = "${var.prefix}-vpc"
   auto_create_subnetworks = false
@@ -43,4 +38,3 @@ resource "google_vpc_access_connector" "connector" {
   min_instances = 2
   max_instances = 3
 }
-

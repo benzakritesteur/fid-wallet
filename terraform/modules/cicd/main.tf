@@ -1,10 +1,3 @@
-variable "project_id" {}
-variable "region" {}
-variable "prefix" {}
-variable "labels" {}
-variable "github_owner" {}
-variable "github_repo" {}
-
 resource "google_artifact_registry_repository" "repo" {
   repository_id = "${var.prefix}-repo"
   location      = var.region
@@ -102,4 +95,3 @@ resource "google_cloudbuild_trigger" "deploy" {
     }
   }
 }
-

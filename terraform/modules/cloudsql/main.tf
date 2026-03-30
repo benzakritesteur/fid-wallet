@@ -1,5 +1,3 @@
-
-
 resource "random_id" "db_suffix" {
   byte_length = 4
 }
@@ -59,5 +57,3 @@ resource "google_sql_database" "fidelity_db" {
 
 
 # NOTE: The DB user must be created manually with the password stored in Secret Manager.
-
-

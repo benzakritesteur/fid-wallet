@@ -1,8 +1,3 @@
-variable "project_id" {}
-variable "region" {}
-variable "prefix" {}
-variable "labels" {}
-
 # Bucket for generated .pkpass files & merchant assets
 resource "google_storage_bucket" "cards" {
   name                        = "${var.project_id}-${var.prefix}-cards"
@@ -44,4 +39,3 @@ resource "google_storage_bucket_iam_member" "assets_public_read" {
   role   = "roles/storage.objectViewer"
   member = "allUsers"
 }
-
